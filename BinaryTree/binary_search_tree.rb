@@ -23,8 +23,10 @@ class BinarySearchTree
     return current_node if el == current_node.val
 
     if el < current_node.val
+      return nil unless current_node.left
       recursive_find(el, current_node.left)
     else
+      return nil unless current_node.right
       recursive_find(el, current_node.right)
     end
   end
@@ -48,10 +50,38 @@ class BinarySearchTree
   def is_balanced?
   end
 
-  def in_order_traversal
+  def in_order_traversal(node = @root)
+    return node unless node.left || node.right
+
+    stack = [node]
+    while node.left
+      node = node.left
+      stack << node
+    end
+
+    res = [stack.pop]
+    until stack.empty?
+      node = res[-1]
+      if node.right
+        res += in_order_traveral(node.right)
+      else
+        node = stack.pop
+        res << node
+      end
+    end
+
+    node = res[-1]
+    if node.right
+      res += in_order_traversal(node.right)
+    end
+
+    return res
   end
 
   def maximum
+    current_node = @root
+    current_node = current_node.right while current_node.right
+    current_node.val
   end
 
   def depth

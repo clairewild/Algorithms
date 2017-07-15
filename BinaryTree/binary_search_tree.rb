@@ -9,14 +9,15 @@ class BinarySearchTree
     current_node = @root
     while current_node.left || current_node.right
       case current_node.val <=> el
-      when -1
-        current_node.left ? current_node = current_node.left : return nil
+      when 1
+        current_node.left ? current_node = current_node.left : break
       when 0
         return current_node
-      when 1
-        current_node.right ? current_node = current_node.right : return nil
+      when -1
+        current_node.right ? current_node = current_node.right : break
       end
     end
+    nil
   end
 
   def recursive_find(el, current_node = @root)
@@ -50,8 +51,13 @@ class BinarySearchTree
   def is_balanced?
   end
 
+  def in_order_vals
+    nodes = in_order_traversal
+    nodes.map { |node| node.val }
+  end
+
   def in_order_traversal(node = @root)
-    return node unless node.left || node.right
+    return [node] unless node.left || node.right
 
     stack = [node]
     while node.left
@@ -63,7 +69,7 @@ class BinarySearchTree
     until stack.empty?
       node = res[-1]
       if node.right
-        res += in_order_traveral(node.right)
+        res += in_order_traversal(node.right)
       else
         node = stack.pop
         res << node

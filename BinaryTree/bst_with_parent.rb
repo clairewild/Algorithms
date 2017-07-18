@@ -1,4 +1,4 @@
-require_relative 'bst_node'
+require_relative 'bst_node_parent'
 
 class BinarySearchTree
   def initialize(val)
@@ -20,18 +20,6 @@ class BinarySearchTree
     nil
   end
 
-  def recursive_find(el, current_node = @root)
-    return current_node if el == current_node.val
-
-    if el < current_node.val
-      return nil unless current_node.left
-      recursive_find(el, current_node.left)
-    else
-      return nil unless current_node.right
-      recursive_find(el, current_node.right)
-    end
-  end
-
   def insert(el)
     parent = @root
     while parent.left || parent.right
@@ -43,6 +31,10 @@ class BinarySearchTree
     end
     node = BSTNode.new(el)
     el < parent.val ? parent.left = node : parent.right = node
+  end
+
+  def delete(val)
+    node = self.find(val)
   end
 
   def is_balanced?

@@ -45,9 +45,6 @@ class BinarySearchTree
     el < parent.val ? parent.left = node : parent.right = node
   end
 
-  def is_balanced?
-  end
-
   def in_order_vals
     nodes = in_order_traversal
     nodes.map { |node| node.val }
@@ -85,8 +82,5 @@ class BinarySearchTree
     current_node = @root
     current_node = current_node.right while current_node.right
     current_node.val
-  end
-
-  def depth
   end
 end
